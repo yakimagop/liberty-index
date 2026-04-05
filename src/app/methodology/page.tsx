@@ -4,9 +4,9 @@ import { getScoreData } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "Scoring Methodology",
-  description: "How the WAGOP Liberty Index works: bill classification by conservative principle, category weights calibrated to the 2024 RNC and WA State Republican Party platforms, and normalization to a 0–100 score.",
+  description: "How the RLC Washington Liberty Index works: bill classification by conservative principle, category weights calibrated to the 2024 RNC and WA State Republican Party platforms, and normalization to a 0–100 score.",
   openGraph: {
-    title: "Scoring Methodology | WAGOP Liberty Index Scorecard",
+    title: "Scoring Methodology | RLC Washington Liberty Index Scorecard",
     description: "How every bill is classified by principle and every legislator is scored — weights calibrated to the 2024 RNC and WA State Republican Party platforms.",
     url: "https://yakimagop.github.io/liberty-index/methodology",
   },
@@ -22,7 +22,7 @@ export default function MethodologyPage() {
           <Link href="/" className="text-red-300 hover:text-white text-sm transition-colors">← Back to Scorecard</Link>
           <span className="text-red-700">|</span>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/wagop-logo.png`} alt="WAGOP Liberty Index Scorecard" width={100} height={29} className="brightness-0 invert opacity-80" />
+          <img src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/rlc-logo.png`} alt="RLC Washington Liberty Index Scorecard" width={40} height={40} className="rounded-full" />
         </div>
       </header>
 

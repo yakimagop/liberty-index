@@ -20,11 +20,11 @@
   <rect width="8" height="630" fill="#fca5a5" opacity="0.3"/>
 
   <!-- WAGOP Liberty Index title -->
-  <text x="80" y="160" font-family="Arial Black, Arial, sans-serif" font-size="72" font-weight="900" fill="white" letter-spacing="-1">WAGOP Liberty Index</text>
-  <text x="80" y="250" font-family="Arial Black, Arial, sans-serif" font-size="72" font-weight="900" fill="white" letter-spacing="-1">Scorecard</text>
+  <text x="80" y="160" font-family="Arial Black, Arial, sans-serif" font-size="62" font-weight="900" fill="white" letter-spacing="-1">Republican Liberty Caucus</text>
+  <text x="80" y="240" font-family="Arial Black, Arial, sans-serif" font-size="62" font-weight="900" fill="white" letter-spacing="-1">Liberty Index Scorecard</text>
 
   <!-- Tagline -->
-  <text x="80" y="320" font-family="Arial, sans-serif" font-size="28" fill="#fca5a5" font-weight="400">Washington State 2025–26 Legislative Grades</text>
+  <text x="80" y="310" font-family="Arial, sans-serif" font-size="28" fill="#fca5a5" font-weight="400">Washington State 2025–26 Legislative Grades</text>
 
   <!-- Divider -->
   <rect x="80" y="360" width="120" height="4" fill="#fca5a5" rx="2"/>

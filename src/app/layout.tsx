@@ -8,9 +8,9 @@ const geistSans = Geist({
 });
 
 const SITE_URL = "https://yakimagop.github.io/liberty-index";
-const SITE_NAME = "WAGOP Liberty Index Scorecard";
+const SITE_NAME = "RLC Washington Liberty Index Scorecard";
 const DESCRIPTION =
-  "Washington State Republican Party Liberty Index — principled conservative grades for every WA legislator based on 2025–26 session floor votes. Every bill scored by principle, not party.";
+  "Republican Liberty Caucus of Washington Liberty Index — principled conservative grades for every WA legislator based on 2025–26 session floor votes. Every bill scored by principle, not party.";
 const OG_IMAGE = `${SITE_URL}/wagop-og.png`;
 
 export const metadata: Metadata = {
