@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Large data files only needed for local script runs
+data/scores-raw.json
+data/classifications.json
