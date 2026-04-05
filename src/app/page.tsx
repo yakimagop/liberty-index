@@ -18,7 +18,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between gap-3">
           <div className="flex items-center gap-3 min-w-0">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/rlc-logo.png`} alt="Republican Liberty Caucus of Washington" width={48} height={48} className="brightness-0 invert flex-shrink-0" />
+            <img src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/rlc-logo.png`} alt="Republican Liberty Caucus of Washington" width={64} height={64} className="brightness-0 invert flex-shrink-0" />
             <div className="border-l border-red-700 pl-3 hidden sm:block">
               <h1 className="text-lg font-bold tracking-tight leading-tight whitespace-nowrap">Liberty Index Scorecard</h1>
               <p className="text-red-300 text-xs mt-0.5">Republican Liberty Caucus of Washington · 2025–26</p>
