@@ -97,6 +97,10 @@ export default async function RepPage({ params }: { params: Promise<{ id: string
 
   const isR = member.party === "R";
   const barColor = getScoreBarColor(member.score);
+  const totalPossible = member.totalVotesCast + member.absences;
+  const participationRate = totalPossible > 0
+    ? Math.round((member.totalVotesCast / totalPossible) * 100)
+    : 100;
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
@@ -160,11 +164,12 @@ export default async function RepPage({ params }: { params: Promise<{ id: string
           </div>
 
           {/* Stat boxes */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-6">
+          <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 mt-6">
             <StatBox label="Bills Scored" value={member.totalVotesCast.toLocaleString()} />
             <StatBox label="Conservative Votes" value={member.conservativeVotesCast.toLocaleString()} color="green" />
             <StatBox label="Non-Conservative" value={(member.totalVotesCast - member.conservativeVotesCast).toLocaleString()} color="red" />
             <StatBox label="Excused Absences" value={member.absences.toLocaleString()} />
+            <StatBox label="Participation" value={`${participationRate}%`} />
           </div>
         </div>
 

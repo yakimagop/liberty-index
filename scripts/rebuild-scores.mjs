@@ -42,6 +42,11 @@ const CATEGORY_WEIGHTS = {
   neutral:            0,
 };
 
+// Locked after 2025-26 session completion. Set from actual min/max after
+// significance multipliers were applied. Re-lock if scoring inputs change.
+const FIXED_MIN_RAW = 23.0;
+const FIXED_MAX_RAW = 75.71;
+
 function scoreToGrade(normalized) {
   if (normalized >= 97) return 'A+';
   if (normalized >= 90) return 'A';
@@ -71,6 +76,9 @@ function main() {
 
   const classData = JSON.parse(readFileSync(join(DATA_DIR, 'classifications.json'), 'utf-8'));
   const classifications = classData.classifications;
+
+  const sigPath = join(DATA_DIR, 'bill-significance.json');
+  const significance = JSON.parse(readFileSync(sigPath, 'utf-8'));
 
   console.log(`Members: ${source.members.length}`);
   console.log(`Classifications: ${Object.keys(classifications).length}\n`);
@@ -110,7 +118,8 @@ function main() {
 
       const catWeight = CATEGORY_WEIGHTS[cls.category] ?? 1.0;
       const confWeight = cls.confidence ?? 1.0;
-      const weight = catWeight * confWeight;
+      const sigMultiplier = significance[v.billId] ?? 1.0;
+      const weight = catWeight * confWeight * sigMultiplier;
 
       totalVotesCast++;
       totalPoints += weight;
@@ -153,15 +162,20 @@ function main() {
     };
   }).filter(m => m.totalVotesCast >= 10);
 
-  // Normalize to 0-100 Liberty Index
+  // Normalize to 0-100 Liberty Index (fixed bounds, locked after session completion)
   const rawScores = rawScored.map(m => m.rawScore);
-  const minRaw = Math.min(...rawScores);
-  const maxRaw = Math.max(...rawScores);
-  console.log(`Raw score range: ${minRaw.toFixed(1)}% – ${maxRaw.toFixed(1)}%`);
-  console.log(`Normalizing to 0–100 Liberty Index (${minRaw.toFixed(1)}% = 0, ${maxRaw.toFixed(1)}% = 100)\n`);
+  const dynamicMin = Math.min(...rawScores);
+  const dynamicMax = Math.max(...rawScores);
+  const minRaw = FIXED_MIN_RAW;
+  const maxRaw = FIXED_MAX_RAW;
+  console.log(`Raw score range (actual): ${dynamicMin.toFixed(2)}% – ${dynamicMax.toFixed(2)}%`);
+  console.log(`Raw score range (fixed):  ${minRaw.toFixed(2)}% – ${maxRaw.toFixed(2)}%`);
+  console.log(`Normalizing to 0–100 Liberty Index (fixed bounds)\n`);
 
   const scored = rawScored.map(m => {
-    const normalized = Math.round(((m.rawScore - minRaw) / (maxRaw - minRaw)) * 100 * 10) / 10;
+    const normalized = Math.min(100, Math.max(0,
+      Math.round(((m.rawScore - minRaw) / (maxRaw - minRaw)) * 100 * 10) / 10
+    ));
     return {
       ...m,
       score: normalized,
@@ -203,7 +217,7 @@ function main() {
     totalBillsScored,
     totalVotesScored: totalScoredVotes,
     scoringMethod: 'principled-liberty',
-    normalization: { minRaw, maxRaw, description: 'Liberty Index: 0=most liberal in WA, 100=most conservative in WA' },
+    normalization: { minRaw, maxRaw, locked: true, description: 'Liberty Index: 0=most liberal in WA, 100=most conservative in WA (bounds locked after 2025-26 session)' },
     members: scored,
     keyVotes: keyVotesList,
   };
