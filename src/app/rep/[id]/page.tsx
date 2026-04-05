@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { getMemberById, getScoreData } from "@/lib/data";
 import { getGradeBg, getScoreBarColor } from "@/lib/utils";
 import VoteTable from "./VoteTable";
+import MemberPhoto from "./MemberPhoto";
 
 const SITE_URL = "https://yakimagop.github.io/liberty-index";
 
@@ -113,13 +114,12 @@ export default async function RepPage({ params }: { params: Promise<{ id: string
         <div className="bg-white rounded-2xl shadow-md border border-gray-200 p-6 mb-6">
           <div className="flex flex-col sm:flex-row sm:items-center gap-6">
             {/* Avatar */}
-            <div className={`w-20 h-20 rounded-2xl flex items-center justify-center text-2xl font-black text-white flex-shrink-0 shadow-lg ring-4 ${
-              isR
-                ? "bg-gradient-to-br from-red-500 to-red-700 ring-red-100"
-                : "bg-gradient-to-br from-blue-500 to-blue-700 ring-blue-100"
-            }`}>
-              {member.firstName[0]}{member.lastName[0]}
-            </div>
+            <MemberPhoto
+              memberId={member.memberId}
+              firstName={member.firstName}
+              lastName={member.lastName}
+              isR={isR}
+            />
 
             <div className="flex-1">
               <div className="flex flex-wrap items-center gap-3 mb-1">
