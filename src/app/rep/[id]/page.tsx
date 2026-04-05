@@ -123,16 +123,18 @@ export default async function RepPage({ params }: { params: Promise<{ id: string
             <div className="flex-shrink-0 self-start sm:self-auto">
               {rank === 1 ? (
                 <div className="rounded-2xl bg-gradient-to-br from-amber-300 via-amber-400 to-yellow-600 p-[3px] shadow-2xl">
-                  <div className="rounded-[14px] overflow-hidden">
+                  <div className="rounded-[14px] overflow-hidden inline-flex flex-col">
                     <div className="bg-red-800 text-center py-1 px-2">
                       <span className="text-amber-300 text-[8px] font-black tracking-widest uppercase">🏆 Top RLCWA Conservative</span>
                     </div>
-                    <MemberPhoto
-                      memberId={member.memberId}
-                      firstName={member.firstName}
-                      lastName={member.lastName}
-                      isR={isR}
-                    />
+                    <div className="flex justify-center bg-white">
+                      <MemberPhoto
+                        memberId={member.memberId}
+                        firstName={member.firstName}
+                        lastName={member.lastName}
+                        isR={isR}
+                      />
+                    </div>
                     <div className="bg-red-800 text-center py-1 px-2">
                       <span className="text-amber-300 text-[8px] font-black tracking-widest uppercase">Liberty Index · #1</span>
                     </div>
