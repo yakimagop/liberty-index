@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { getScoreData } from "@/lib/data";
 
 export default function MethodologyPage() {
@@ -11,7 +10,8 @@ export default function MethodologyPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4 flex items-center gap-4">
           <Link href="/" className="text-red-200 hover:text-white text-sm">← Back to Scorecard</Link>
           <span className="text-red-600">|</span>
-          <Image src="/wagop-logo.png" alt="WAGOP Liberty Index Scorecard" width={100} height={29} className="brightness-0 invert opacity-80" />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/wagop-logo.png`} alt="WAGOP Liberty Index Scorecard" width={100} height={29} className="brightness-0 invert opacity-80" />
         </div>
       </header>
 

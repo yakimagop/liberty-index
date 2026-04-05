@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { getMemberSummaries, getScoreData } from "@/lib/data";
 import Leaderboard from "@/components/Leaderboard";
 
@@ -18,7 +17,8 @@ export default function HomePage() {
       <header className="bg-red-700 text-white shadow-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <Image src="/wagop-logo.png" alt="Washington State Republican Party" width={160} height={46} className="brightness-0 invert" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/wagop-logo.png`} alt="Washington State Republican Party" width={160} height={46} className="brightness-0 invert" />
             <div className="border-l border-red-500 pl-4">
               <h1 className="text-xl font-bold tracking-tight leading-tight">Liberty Index Scorecard</h1>
               <p className="text-red-200 text-xs mt-0.5">Washington State 2025–26 Legislative Grades</p>

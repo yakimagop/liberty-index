@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getMemberById, getScoreData } from "@/lib/data";
 import { getGradeBg, getScoreBarColor } from "@/lib/utils";
@@ -54,7 +53,8 @@ export default async function RepPage({ params }: { params: Promise<{ id: string
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center gap-4">
           <Link href="/" className="text-red-200 hover:text-white text-sm transition-colors">← All Legislators</Link>
           <span className="text-red-600">|</span>
-          <Image src="/wagop-logo.png" alt="WAGOP Liberty Index Scorecard" width={100} height={29} className="brightness-0 invert opacity-80" />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/wagop-logo.png`} alt="WAGOP Liberty Index Scorecard" width={100} height={29} className="brightness-0 invert opacity-80" />
         </div>
       </header>
 
