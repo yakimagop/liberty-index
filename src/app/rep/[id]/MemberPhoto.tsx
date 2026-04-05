@@ -27,17 +27,17 @@ export default function MemberPhoto({
       <img
         src={photoUrl}
         alt={`${firstName} ${lastName}`}
-        width={80}
-        height={80}
+        width={144}
+        height={144}
         onError={() => setFailed(true)}
-        className={`w-20 h-20 rounded-2xl object-cover flex-shrink-0 shadow-lg ring-4 ${ringClass}`}
+        className={`w-28 h-28 sm:w-36 sm:h-36 rounded-2xl object-cover flex-shrink-0 shadow-lg ring-4 ${ringClass}`}
       />
     );
   }
 
   return (
     <div
-      className={`w-20 h-20 rounded-2xl flex items-center justify-center text-2xl font-black text-white flex-shrink-0 shadow-lg ring-4 ${gradientClass} ${ringClass}`}
+      className={`w-28 h-28 sm:w-36 sm:h-36 rounded-2xl flex items-center justify-center text-4xl font-black text-white flex-shrink-0 shadow-lg ring-4 ${gradientClass} ${ringClass}`}
     >
       {firstName[0]}{lastName[0]}
     </div>

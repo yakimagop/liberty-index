@@ -10,8 +10,9 @@ const SITE_URL = "https://index.rlcwa.org";
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;
-  const member = getMemberById(id);
-  if (!member) return {};
+  const result = getMemberById(id);
+  if (!result) return {};
+  const { member } = result;
 
   const name = `${member.firstName} ${member.lastName}`;
   const party = member.party === "R" ? "Republican" : "Democrat";
@@ -77,8 +78,9 @@ export async function generateStaticParams() {
 
 export default async function RepPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const member = getMemberById(id);
-  if (!member) notFound();
+  const result = getMemberById(id);
+  if (!result) notFound();
+  const { member, rank } = result;
 
   const recentVotes = member.keyVotes
     .slice()
@@ -115,15 +117,36 @@ export default async function RepPage({ params }: { params: Promise<{ id: string
 
       <main className="flex-1 max-w-5xl mx-auto w-full px-4 sm:px-6 py-8">
         {/* Rep header card */}
-        <div className="bg-white rounded-2xl shadow-md border border-gray-200 p-6 mb-6">
+        <div className="relative bg-white rounded-2xl shadow-md border border-gray-200 p-6 mb-6">
           <div className="flex flex-col sm:flex-row sm:items-center gap-6">
-            {/* Avatar */}
-            <MemberPhoto
-              memberId={member.memberId}
-              firstName={member.firstName}
-              lastName={member.lastName}
-              isR={isR}
-            />
+            {/* Avatar — gold frame for #1 */}
+            <div className="flex-shrink-0 self-start sm:self-auto">
+              {rank === 1 ? (
+                <div className="rounded-2xl bg-gradient-to-br from-amber-300 via-amber-400 to-yellow-600 p-[3px] shadow-2xl">
+                  <div className="rounded-[14px] overflow-hidden">
+                    <div className="bg-red-800 text-center py-1 px-2">
+                      <span className="text-amber-300 text-[8px] font-black tracking-widest uppercase">🏆 Top RLCWA Conservative</span>
+                    </div>
+                    <MemberPhoto
+                      memberId={member.memberId}
+                      firstName={member.firstName}
+                      lastName={member.lastName}
+                      isR={isR}
+                    />
+                    <div className="bg-red-800 text-center py-1 px-2">
+                      <span className="text-amber-300 text-[8px] font-black tracking-widest uppercase">Liberty Index · #1</span>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <MemberPhoto
+                  memberId={member.memberId}
+                  firstName={member.firstName}
+                  lastName={member.lastName}
+                  isR={isR}
+                />
+              )}
+            </div>
 
             <div className="flex-1">
               <div className="flex flex-wrap items-center gap-3 mb-1">

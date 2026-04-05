@@ -21,7 +21,9 @@ export function getMemberSummaries(): MemberSummary[] {
   return data.members.map(({ keyVotes: _kv, ...m }) => m);
 }
 
-export function getMemberById(id: string): Member | undefined {
+export function getMemberById(id: string): { member: Member; rank: number } | undefined {
   const data = getScoreData();
-  return data.members.find(m => m.memberId === id);
+  const index = data.members.findIndex(m => m.memberId === id);
+  if (index === -1) return undefined;
+  return { member: data.members[index], rank: index + 1 };
 }
