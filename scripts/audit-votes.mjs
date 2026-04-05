@@ -131,11 +131,12 @@ function main() {
 
   console.log(`Stored vote records across ${Object.keys(stored).length} scored bills\n`);
 
-  // Extract unique bill numbers to fetch
+  // Extract unique bill numbers to fetch.
+  // Use trailing digits to handle prefixed versions like "E2SHB 1102" → 1102,
+  // not "2" which the first-match regex would incorrectly produce.
   const billNumbers = new Set();
   for (const billId of scoredBillIds) {
-    // billId like "HB 1018" or "SB 5003" -> extract number
-    const m = billId.match(/(\d+)/);
+    const m = billId.match(/(\d+)$/);
     if (m) billNumbers.add(parseInt(m[1]));
   }
   console.log(`Unique bill numbers to re-fetch: ${billNumbers.size}\n`);

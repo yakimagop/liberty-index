@@ -91,7 +91,7 @@ async function main() {
       if (!scoredBillIds.has(v.billId)) continue;
       const key = `${v.billId}|${v.voteDate}`;
       if (seen[key]) {
-        const m = v.billId.match(/(\d+)/);
+        const m = v.billId.match(/(\d+)$/);
         if (m) dupBillNums.add(parseInt(m[1]));
         break;
       }
