@@ -7,7 +7,7 @@ const geistSans = Geist({
   subsets: ["latin"],
 });
 
-const SITE_URL = "https://yakimagop.github.io/liberty-index";
+const SITE_URL = "https://index.rlcwa.org";
 const SITE_NAME = "RLC Washington Liberty Index Scorecard";
 const DESCRIPTION =
   "Republican Liberty Caucus of Washington Liberty Index — principled conservative grades for every WA legislator based on 2025–26 session floor votes. Every bill scored by principle, not party.";

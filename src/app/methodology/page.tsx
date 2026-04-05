@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Scoring Methodology | RLC Washington Liberty Index Scorecard",
     description: "How every bill is classified by principle and every legislator is scored — weights calibrated to the 2024 RNC and WA State Republican Party platforms.",
-    url: "https://yakimagop.github.io/liberty-index/methodology",
+    url: "https://index.rlcwa.org/methodology",
   },
 };
 

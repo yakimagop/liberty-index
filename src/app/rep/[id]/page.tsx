@@ -6,7 +6,7 @@ import { getGradeBg, getScoreBarColor } from "@/lib/utils";
 import VoteTable from "./VoteTable";
 import MemberPhoto from "./MemberPhoto";
 
-const SITE_URL = "https://yakimagop.github.io/liberty-index";
+const SITE_URL = "https://index.rlcwa.org";
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;
