@@ -44,114 +44,105 @@ export default function VoteTable({ votes, totalVotes }: {
           </h2>
         </div>
         <div className="flex flex-wrap gap-2">
-          <button
-            onClick={() => setFilter("all")}
-            className={`px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold border transition-colors ${
-              filter === "all"
-                ? "bg-gray-800 text-white border-gray-800"
-                : "bg-white text-gray-600 border-gray-300 hover:border-gray-400"
-            }`}
-          >
-            All ({votes.length})
-          </button>
-          <button
-            onClick={() => setFilter("good")}
-            className={`px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold border transition-colors ${
-              filter === "good"
-                ? "bg-green-600 text-white border-green-600"
-                : "bg-white text-green-700 border-green-300 hover:border-green-500"
-            }`}
-          >
-            ✓ Conservative ({goodCount})
-          </button>
-          <button
-            onClick={() => setFilter("bad")}
-            className={`px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold border transition-colors ${
-              filter === "bad"
-                ? "bg-red-600 text-white border-red-600"
-                : "bg-white text-red-700 border-red-300 hover:border-red-500"
-            }`}
-          >
-            ✗ Non-Conservative ({badCount})
-          </button>
+          {(["all", "good", "bad"] as Filter[]).map((f) => (
+            <button key={f} onClick={() => setFilter(f)}
+              className={`px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold border transition-colors ${
+                filter === f
+                  ? f === "good" ? "bg-green-600 text-white border-green-600"
+                    : f === "bad" ? "bg-red-600 text-white border-red-600"
+                    : "bg-gray-800 text-white border-gray-800"
+                  : f === "good" ? "bg-white text-green-700 border-green-300 hover:border-green-500"
+                    : f === "bad" ? "bg-white text-red-700 border-red-300 hover:border-red-500"
+                    : "bg-white text-gray-600 border-gray-300 hover:border-gray-400"
+              }`}>
+              {f === "all" ? `All (${votes.length})` : f === "good" ? `✓ Conservative (${goodCount})` : `✗ Non-Conservative (${badCount})`}
+            </button>
+          ))}
         </div>
       </div>
-      <div className="overflow-x-auto">
+
+      {/* Desktop table */}
+      <div className="hidden sm:block overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-gray-200 bg-gray-50">
-              <th className="py-2 px-3 text-left text-xs font-semibold text-gray-500 uppercase w-24 sm:w-28">Bill</th>
+              <th className="py-2 px-3 text-left text-xs font-semibold text-gray-500 uppercase w-28">Bill</th>
               <th className="py-2 px-3 text-left text-xs font-semibold text-gray-500 uppercase">Bill &amp; Conservative Rationale</th>
-              <th className="py-2 px-3 text-center text-xs font-semibold text-gray-500 uppercase w-28 hidden sm:table-cell">Conservative<br/>Position</th>
-              <th className="py-2 px-3 text-center text-xs font-semibold text-gray-500 uppercase w-20 hidden sm:table-cell">Their<br/>Vote</th>
+              <th className="py-2 px-3 text-center text-xs font-semibold text-gray-500 uppercase w-28">Conservative<br/>Position</th>
+              <th className="py-2 px-3 text-center text-xs font-semibold text-gray-500 uppercase w-20">Their<br/>Vote</th>
               <th className="py-2 px-3 text-center text-xs font-semibold text-gray-500 uppercase w-14">Result</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
             {filtered.map((v, i) => {
-              const category = v.category;
-              const reasoning = v.reasoning;
               const conservativeVote = v.conservativeVote as "YEA" | "NAY";
               return (
                 <tr key={i} className={`${v.votedConservative ? "bg-green-50/40 hover:bg-green-50" : "bg-red-50/30 hover:bg-red-50"} transition-colors`}>
                   <td className="py-3 px-3 align-top">
-                    <a
-                      href={`https://app.leg.wa.gov/billsummary?BillNumber=${v.billNumber}&Year=2025`}
-                      target="_blank" rel="noopener noreferrer"
-                      className="text-red-700 hover:underline font-mono text-xs font-semibold block"
-                    >
-                      {v.billId}
-                    </a>
+                    <a href={`https://app.leg.wa.gov/billsummary?BillNumber=${v.billNumber}&Year=2025`} target="_blank" rel="noopener noreferrer" className="text-red-700 hover:underline font-mono text-xs font-semibold block">{v.billId}</a>
                     <div className="text-gray-400 text-xs mt-1">{v.voteDate}</div>
-                    <span className="inline-block mt-1 text-xs bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded">
-                      {CATEGORY_LABELS[category] || category || "—"}
-                    </span>
+                    <span className="inline-block mt-1 text-xs bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded">{CATEGORY_LABELS[v.category] || v.category || "—"}</span>
                   </td>
                   <td className="py-3 px-3 align-top">
                     <div className="font-semibold text-gray-800 text-sm">{v.shortDescription || "—"}</div>
-                    <a
-                      href={`https://app.leg.wa.gov/billsummary?BillNumber=${v.billNumber}&Year=2025`}
-                      target="_blank" rel="noopener noreferrer"
-                      className="text-xs text-red-700 hover:underline mt-0.5 inline-block"
-                    >
-                      Read the bill ↗
-                    </a>
-                    {reasoning && (
-                      <div className="mt-1 text-xs text-gray-600 leading-snug">
-                        <span className="font-semibold text-gray-500">Why: </span>{reasoning}
-                      </div>
-                    )}
+                    <a href={`https://app.leg.wa.gov/billsummary?BillNumber=${v.billNumber}&Year=2025`} target="_blank" rel="noopener noreferrer" className="text-xs text-red-700 hover:underline mt-0.5 inline-block">Read the bill ↗</a>
+                    {v.reasoning && <div className="mt-1 text-xs text-gray-600 leading-snug"><span className="font-semibold text-gray-500">Why: </span>{v.reasoning}</div>}
                   </td>
-                  <td className="py-3 px-3 align-top text-center hidden sm:table-cell">
-                    <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-bold border ${
-                      conservativeVote === "YEA"
-                        ? "bg-green-100 text-green-800 border-green-300"
-                        : "bg-red-100 text-red-800 border-red-300"
-                    }`}>
-                      {conservativeVote === "YEA" ? "✓ YEA" : "✗ NAY"}
-                    </span>
-                  </td>
-                  <td className="py-3 px-3 align-top text-center hidden sm:table-cell">
-                    <span className={`inline-block px-2 py-1 rounded-full text-xs font-bold border ${
-                      v.memberVote === "Yea"
-                        ? "bg-green-100 text-green-700 border-green-200"
-                        : "bg-red-100 text-red-700 border-red-200"
-                    }`}>
-                      {v.memberVote}
+                  <td className="py-3 px-3 align-top text-center">
+                    <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-bold border ${conservativeVote === "YEA" ? "bg-green-100 text-green-800 border-green-300" : "bg-red-100 text-red-800 border-red-300"}`}>
+                      {conservativeVote === "YEA" ? "✓ Vote YEA" : "✗ Vote NAY"}
                     </span>
                   </td>
                   <td className="py-3 px-3 align-top text-center">
-                    {v.votedConservative ? (
-                      <span className="text-green-600 text-xl font-bold">✓</span>
-                    ) : (
-                      <span className="text-red-500 text-xl font-bold">✗</span>
-                    )}
+                    <span className={`inline-block px-2 py-1 rounded-full text-xs font-bold border ${v.memberVote === "Yea" ? "bg-green-100 text-green-700 border-green-200" : "bg-red-100 text-red-700 border-red-200"}`}>{v.memberVote}</span>
+                  </td>
+                  <td className="py-3 px-3 align-top text-center">
+                    {v.votedConservative ? <span className="text-green-600 text-xl font-bold">✓</span> : <span className="text-red-500 text-xl font-bold">✗</span>}
                   </td>
                 </tr>
               );
             })}
           </tbody>
         </table>
+      </div>
+
+      {/* Mobile card list */}
+      <div className="sm:hidden divide-y divide-gray-100">
+        {filtered.map((v, i) => {
+          const conservativeVote = v.conservativeVote as "YEA" | "NAY";
+          return (
+            <div key={i} className={`px-4 py-3 ${v.votedConservative ? "bg-green-50/40" : "bg-red-50/30"}`}>
+              <div className="flex items-start justify-between gap-2 mb-1.5">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <a href={`https://app.leg.wa.gov/billsummary?BillNumber=${v.billNumber}&Year=2025`} target="_blank" rel="noopener noreferrer" className="text-red-700 font-mono text-xs font-bold hover:underline">{v.billId}</a>
+                  <span className="text-xs bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded">{CATEGORY_LABELS[v.category] || v.category || "—"}</span>
+                  <span className="text-gray-400 text-xs">{v.voteDate}</span>
+                </div>
+                <span className="text-xl font-bold flex-shrink-0">
+                  {v.votedConservative ? <span className="text-green-600">✓</span> : <span className="text-red-500">✗</span>}
+                </span>
+              </div>
+
+              <div className="font-semibold text-gray-800 text-sm mb-1">{v.shortDescription || "—"}</div>
+              <a href={`https://app.leg.wa.gov/billsummary?BillNumber=${v.billNumber}&Year=2025`} target="_blank" rel="noopener noreferrer" className="text-xs text-red-700 hover:underline inline-block mb-1.5">Read the bill ↗</a>
+
+              {v.reasoning && (
+                <div className="text-xs text-gray-600 leading-snug mb-2">
+                  <span className="font-semibold text-gray-500">Why: </span>{v.reasoning}
+                </div>
+              )}
+
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold border ${conservativeVote === "YEA" ? "bg-green-100 text-green-800 border-green-300" : "bg-red-100 text-red-800 border-red-300"}`}>
+                  Conservative: {conservativeVote === "YEA" ? "✓ Vote YEA" : "✗ Vote NAY"}
+                </span>
+                <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold border ${v.memberVote === "Yea" ? "bg-green-100 text-green-700 border-green-200" : "bg-red-100 text-red-700 border-red-200"}`}>
+                  Voted: {v.memberVote}
+                </span>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
