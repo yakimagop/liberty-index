@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#450a0a"/>
+      <stop offset="50%" style="stop-color:#991b1b"/>
+      <stop offset="100%" style="stop-color:#b91c1c"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Subtle diagonal lines for texture -->
+  <rect width="1200" height="630" fill="none" stroke="white" stroke-opacity="0.03" stroke-width="1"/>
+
+  <!-- Bottom accent bar -->
+  <rect y="590" width="1200" height="40" fill="#7f1d1d" opacity="0.6"/>
+
+  <!-- Left accent stripe -->
+  <rect width="8" height="630" fill="#fca5a5" opacity="0.3"/>
+
+  <!-- WAGOP Liberty Index title -->
+  <text x="80" y="160" font-family="Arial Black, Arial, sans-serif" font-size="72" font-weight="900" fill="white" letter-spacing="-1">WAGOP Liberty Index</text>
+  <text x="80" y="250" font-family="Arial Black, Arial, sans-serif" font-size="72" font-weight="900" fill="white" letter-spacing="-1">Scorecard</text>
+
+  <!-- Tagline -->
+  <text x="80" y="320" font-family="Arial, sans-serif" font-size="28" fill="#fca5a5" font-weight="400">Washington State 2025–26 Legislative Grades</text>
+
+  <!-- Divider -->
+  <rect x="80" y="360" width="120" height="4" fill="#fca5a5" rx="2"/>
+
+  <!-- Description -->
+  <text x="80" y="415" font-family="Arial, sans-serif" font-size="24" fill="#fecaca">Every bill classified by principle — not party.</text>
+  <text x="80" y="450" font-family="Arial, sans-serif" font-size="24" fill="#fecaca">366 bills scored · 148 legislators rated · 2025–26 session.</text>
+
+  <!-- Grade examples on the right -->
+  <rect x="850" y="160" width="100" height="70" rx="12" fill="#16a34a"/>
+  <text x="900" y="210" font-family="Arial Black, Arial, sans-serif" font-size="42" font-weight="900" fill="white" text-anchor="middle">A+</text>
+
+  <rect x="970" y="160" width="100" height="70" rx="12" fill="#22c55e"/>
+  <text x="1020" y="210" font-family="Arial Black, Arial, sans-serif" font-size="42" font-weight="900" fill="white" text-anchor="middle">A</text>
+
+  <rect x="1090" y="160" width="100" height="70" rx="12" fill="#3b82f6"/>
+  <text x="1140" y="210" font-family="Arial Black, Arial, sans-serif" font-size="42" font-weight="900" fill="white" text-anchor="middle">B</text>
+
+  <rect x="850" y="250" width="100" height="70" rx="12" fill="#f59e0b"/>
+  <text x="900" y="300" font-family="Arial Black, Arial, sans-serif" font-size="42" font-weight="900" fill="white" text-anchor="middle">C</text>
+
+  <rect x="970" y="250" width="100" height="70" rx="12" fill="#f97316"/>
+  <text x="1020" y="300" font-family="Arial Black, Arial, sans-serif" font-size="42" font-weight="900" fill="white" text-anchor="middle">D</text>
+
+  <rect x="1090" y="250" width="100" height="70" rx="12" fill="#dc2626"/>
+  <text x="1140" y="300" font-family="Arial Black, Arial, sans-serif" font-size="42" font-weight="900" fill="white" text-anchor="middle">F</text>
+
+  <!-- URL -->
+  <text x="80" y="575" font-family="Arial, sans-serif" font-size="22" fill="#fca5a5" opacity="0.8">yakimagop.github.io/liberty-index</text>
+</svg>

@@ -1,8 +1,39 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getMemberById, getScoreData } from "@/lib/data";
 import { getGradeBg, getScoreBarColor } from "@/lib/utils";
 import VoteTable from "./VoteTable";
+
+const SITE_URL = "https://yakimagop.github.io/liberty-index";
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params;
+  const member = getMemberById(id);
+  if (!member) return {};
+
+  const name = `${member.firstName} ${member.lastName}`;
+  const party = member.party === "R" ? "Republican" : "Democrat";
+  const title = `${name} (${member.party}) — Grade ${member.grade} · Liberty Index ${member.score}`;
+  const description = `${name} · ${party} · ${member.chamber}, LD ${member.district} · Liberty Index: ${member.score} (Grade ${member.grade}) · ${member.conservativeVotesCast} of ${member.totalVotesCast} votes aligned with conservative principles in the 2025–26 WA legislative session.`;
+  const url = `${SITE_URL}/rep/${id}`;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url,
+      images: [{ url: `${SITE_URL}/wagop-og.png`, width: 1200, height: 630 }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
+  };
+}
 
 const CATEGORY_LABELS: Record<string, string> = {
   taxes: "Taxes & Fiscal",

@@ -1,5 +1,16 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { getScoreData } from "@/lib/data";
+
+export const metadata: Metadata = {
+  title: "Scoring Methodology",
+  description: "How the WAGOP Liberty Index works: bill classification by conservative principle, category weights calibrated to the 2024 RNC and WA State Republican Party platforms, and normalization to a 0–100 score.",
+  openGraph: {
+    title: "Scoring Methodology | WAGOP Liberty Index Scorecard",
+    description: "How every bill is classified by principle and every legislator is scored — weights calibrated to the 2024 RNC and WA State Republican Party platforms.",
+    url: "https://yakimagop.github.io/liberty-index/methodology",
+  },
+};
 
 export default function MethodologyPage() {
   const data = getScoreData();
