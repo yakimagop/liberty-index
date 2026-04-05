@@ -147,9 +147,9 @@ export default async function RepPage({ params }: { params: Promise<{ id: string
           {/* Animated score bar */}
           <div className="mt-6">
             <div className="flex justify-between text-xs text-gray-400 mb-1.5 font-medium">
-              <span>0 — Most Statist</span>
-              <span>Liberty Index</span>
-              <span>100 — Most Conservative</span>
+              <span>0 — Statist</span>
+              <span className="hidden sm:inline">Liberty Index</span>
+              <span>100 — Conservative</span>
             </div>
             <div className="w-full bg-gray-100 rounded-full h-5 overflow-hidden shadow-inner">
               <div

@@ -104,12 +104,12 @@ export default function Leaderboard({ members }: { members: MemberSummary[] }) {
                 <th className="py-3 px-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider cursor-pointer hover:text-gray-800 select-none" onClick={() => toggleSort("name")}>
                   Legislator <SortIcon col="name" />
                 </th>
-                <th className="py-3 px-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Chamber</th>
-                <th className="py-3 px-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider cursor-pointer hover:text-gray-800 select-none" onClick={() => toggleSort("district")}>
+                <th className="py-3 px-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider hidden sm:table-cell">Chamber</th>
+                <th className="py-3 px-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider cursor-pointer hover:text-gray-800 select-none hidden sm:table-cell" onClick={() => toggleSort("district")}>
                   District <SortIcon col="district" />
                 </th>
-                <th className="py-3 px-4 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider cursor-pointer hover:text-gray-800 select-none w-56" onClick={() => toggleSort("score")}>
-                  Liberty Index <SortIcon col="score" />
+                <th className="py-3 px-4 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider cursor-pointer hover:text-gray-800 select-none w-32 sm:w-56" onClick={() => toggleSort("score")}>
+                  Score <SortIcon col="score" />
                 </th>
                 <th className="py-3 px-4 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider w-16">Grade</th>
               </tr>
@@ -135,11 +135,11 @@ export default function Leaderboard({ members }: { members: MemberSummary[] }) {
                       {m.party}
                     </span>
                   </td>
-                  <td className="py-3 px-4 text-gray-500">{m.chamber}</td>
-                  <td className="py-3 px-4 text-gray-500">LD {m.district}</td>
+                  <td className="py-3 px-4 text-gray-500 hidden sm:table-cell">{m.chamber}</td>
+                  <td className="py-3 px-4 text-gray-500 hidden sm:table-cell">LD {m.district}</td>
                   <td className="py-3 px-4">
                     <div className="flex items-center gap-2 justify-end">
-                      <div className="w-28 bg-gray-200 rounded-full h-2 overflow-hidden">
+                      <div className="w-16 sm:w-28 bg-gray-200 rounded-full h-2 overflow-hidden hidden xs:block sm:block">
                         <div className={`h-2 rounded-full ${getScoreBarColor(m.score)} transition-all`} style={{ width: `${m.score}%` }} />
                       </div>
                       <span className="font-mono font-bold text-gray-800 w-10 text-right tabular-nums">{m.score}</span>
