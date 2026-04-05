@@ -1,11 +1,12 @@
 // Pure utility functions — safe for client components
 
 export function getGradeBg(grade: string): string {
-  if (grade === 'A+' || grade === 'A') return 'bg-green-100 text-green-800 border-green-200';
-  if (grade === 'B') return 'bg-blue-100 text-blue-800 border-blue-200';
-  if (grade === 'C') return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-  if (grade === 'D') return 'bg-orange-100 text-orange-800 border-orange-200';
-  return 'bg-red-100 text-red-800 border-red-200';
+  if (grade === 'A+') return 'bg-emerald-600 text-white border-emerald-600';
+  if (grade === 'A')  return 'bg-green-500 text-white border-green-500';
+  if (grade === 'B')  return 'bg-blue-500 text-white border-blue-500';
+  if (grade === 'C')  return 'bg-amber-400 text-white border-amber-400';
+  if (grade === 'D')  return 'bg-orange-500 text-white border-orange-500';
+  return 'bg-red-600 text-white border-red-600';
 }
 
 export function getScoreBarColor(score: number): string {

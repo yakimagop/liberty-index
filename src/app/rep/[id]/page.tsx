@@ -21,6 +21,23 @@ const CATEGORY_LABELS: Record<string, string> = {
   neutral: "Neutral",
 };
 
+const CATEGORY_ICONS: Record<string, string> = {
+  taxes: "💰",
+  gun_rights: "🎯",
+  social_family: "👨‍👩‍👧",
+  election_integrity: "🗳️",
+  education: "📚",
+  crime_safety: "🛡️",
+  healthcare: "🏥",
+  environment: "🌿",
+  energy: "⚡",
+  government_size: "🏛️",
+  regulation: "📋",
+  property_rights: "🏠",
+  immigration: "🦅",
+  neutral: "—",
+};
+
 export async function generateStaticParams() {
   const data = getScoreData();
   return data.members.map((m) => ({ id: m.memberId }));
@@ -35,7 +52,6 @@ export default async function RepPage({ params }: { params: Promise<{ id: string
     .slice()
     .sort((a, b) => (b.voteDate || "").localeCompare(a.voteDate || ""));
 
-  // Category breakdown
   const catMap: Record<string, { total: number; conservative: number }> = {};
   for (const v of member.keyVotes) {
     const cat = (v as any).category || "other";
@@ -47,12 +63,15 @@ export default async function RepPage({ params }: { params: Promise<{ id: string
     .filter(([k]) => k !== "neutral")
     .sort((a, b) => b[1].total - a[1].total);
 
+  const isR = member.party === "R";
+  const barColor = getScoreBarColor(member.score);
+
   return (
-    <div className="min-h-screen flex flex-col">
-      <header className="bg-red-700 text-white shadow-md">
+    <div className="min-h-screen flex flex-col bg-gray-50">
+      <header className="bg-gradient-to-r from-red-950 via-red-900 to-red-800 text-white shadow-lg">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center gap-4">
-          <Link href="/" className="text-red-200 hover:text-white text-sm transition-colors">← All Legislators</Link>
-          <span className="text-red-600">|</span>
+          <Link href="/" className="text-red-300 hover:text-white text-sm transition-colors">← All Legislators</Link>
+          <span className="text-red-700">|</span>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/wagop-logo.png`} alt="WAGOP Liberty Index Scorecard" width={100} height={29} className="brightness-0 invert opacity-80" />
         </div>
@@ -60,16 +79,22 @@ export default async function RepPage({ params }: { params: Promise<{ id: string
 
       <main className="flex-1 max-w-5xl mx-auto w-full px-4 sm:px-6 py-8">
         {/* Rep header card */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+        <div className="bg-white rounded-2xl shadow-md border border-gray-200 p-6 mb-6">
           <div className="flex flex-col sm:flex-row sm:items-center gap-6">
-            <div className={`w-20 h-20 rounded-full flex items-center justify-center text-2xl font-bold text-white flex-shrink-0 ${member.party === "R" ? "bg-red-600" : "bg-blue-600"}`}>
+            {/* Avatar */}
+            <div className={`w-20 h-20 rounded-2xl flex items-center justify-center text-2xl font-black text-white flex-shrink-0 shadow-lg ring-4 ${
+              isR
+                ? "bg-gradient-to-br from-red-500 to-red-700 ring-red-100"
+                : "bg-gradient-to-br from-blue-500 to-blue-700 ring-blue-100"
+            }`}>
               {member.firstName[0]}{member.lastName[0]}
             </div>
+
             <div className="flex-1">
-              <div className="flex flex-wrap items-start gap-3 mb-1">
-                <h1 className="text-2xl font-bold text-gray-900">{member.firstName} {member.lastName}</h1>
-                <span className={`px-2 py-0.5 rounded text-sm font-bold ${member.party === "R" ? "bg-red-100 text-red-700" : "bg-blue-100 text-blue-700"}`}>
-                  {member.party === "R" ? "Republican" : "Democrat"}
+              <div className="flex flex-wrap items-center gap-3 mb-1">
+                <h1 className="text-2xl font-black text-gray-900">{member.firstName} {member.lastName}</h1>
+                <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold shadow-sm ${isR ? "bg-red-600 text-white" : "bg-blue-600 text-white"}`}>
+                  {isR ? "Republican" : "Democrat"}
                 </span>
               </div>
               <p className="text-gray-500 text-sm">{member.chamber} · Legislative District {member.district}</p>
@@ -77,47 +102,60 @@ export default async function RepPage({ params }: { params: Promise<{ id: string
                 <a href={`mailto:${member.email}`} className="text-sm text-red-700 hover:underline mt-1 inline-block">{member.email}</a>
               )}
             </div>
+
+            {/* Score badge */}
             <div className="text-center">
-              <div className="text-5xl font-bold text-gray-900">{member.score}</div>
-              <div className="text-gray-500 text-sm mb-2">Liberty Index</div>
-              <span className={`px-4 py-1.5 rounded-lg border text-lg font-bold ${getGradeBg(member.grade)}`}>
-                Grade: {member.grade}
+              <div className="text-5xl font-black text-gray-900 tabular-nums">{member.score}</div>
+              <div className="text-gray-400 text-xs mb-2 font-medium uppercase tracking-wider">Liberty Index</div>
+              <span className={`px-5 py-1.5 rounded-full text-lg font-black shadow-md ${getGradeBg(member.grade)}`}>
+                {member.grade}
               </span>
             </div>
           </div>
+
+          {/* Animated score bar */}
           <div className="mt-6">
-            <div className="flex justify-between text-xs text-gray-500 mb-1">
-              <span>0 (most statist)</span>
+            <div className="flex justify-between text-xs text-gray-400 mb-1.5 font-medium">
+              <span>0 — Most Statist</span>
               <span>Liberty Index</span>
-              <span>100 (most conservative)</span>
+              <span>100 — Most Conservative</span>
             </div>
-            <div className="w-full bg-gray-200 rounded-full h-4 overflow-hidden">
-              <div className={`h-4 rounded-full ${getScoreBarColor(member.score)}`} style={{ width: `${member.score}%` }} />
+            <div className="w-full bg-gray-100 rounded-full h-5 overflow-hidden shadow-inner">
+              <div
+                className={`h-5 rounded-full score-bar-animate ${barColor}`}
+                style={{ "--bar-target": `${member.score}%` } as React.CSSProperties}
+              />
             </div>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6">
+
+          {/* Stat boxes */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-6">
             <StatBox label="Bills Scored" value={member.totalVotesCast.toLocaleString()} />
-            <StatBox label="Voted Conservative" value={member.conservativeVotesCast.toLocaleString()} />
-            <StatBox label="Voted Liberal" value={(member.totalVotesCast - member.conservativeVotesCast).toLocaleString()} />
+            <StatBox label="Conservative Votes" value={member.conservativeVotesCast.toLocaleString()} color="green" />
+            <StatBox label="Non-Conservative" value={(member.totalVotesCast - member.conservativeVotesCast).toLocaleString()} color="red" />
             <StatBox label="Excused Absences" value={member.absences.toLocaleString()} />
           </div>
         </div>
 
         {/* Category breakdown */}
         {cats.length > 0 && (
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
-            <h2 className="text-lg font-semibold text-gray-800 mb-4">Score by Policy Category</h2>
-            <div className="space-y-3">
+          <div className="bg-white rounded-2xl shadow-md border border-gray-200 p-6 mb-6">
+            <h2 className="text-lg font-bold text-gray-800 mb-5">Score by Policy Category</h2>
+            <div className="space-y-4">
               {cats.map(([cat, { total, conservative }]) => {
                 const pct = Math.round((conservative / total) * 100);
+                const icon = CATEGORY_ICONS[cat] || "•";
                 return (
                   <div key={cat}>
-                    <div className="flex justify-between text-sm mb-1">
-                      <span className="text-gray-700 font-medium">{CATEGORY_LABELS[cat] || cat}</span>
-                      <span className="text-gray-500 text-xs">{conservative}/{total} conservative · {pct}%</span>
+                    <div className="flex justify-between items-center text-sm mb-1.5">
+                      <span className="text-gray-700 font-semibold flex items-center gap-2">
+                        <span className="text-base">{icon}</span>
+                        {CATEGORY_LABELS[cat] || cat}
+                      </span>
+                      <span className="text-gray-400 text-xs tabular-nums">{conservative}/{total} · <strong className="text-gray-600">{pct}%</strong></span>
                     </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
-                      <div className={`h-2 rounded-full ${getScoreBarColor(pct)}`} style={{ width: `${pct}%` }} />
+                    <div className="w-full bg-gray-100 rounded-full h-2.5 overflow-hidden shadow-inner">
+                      <div className={`h-2.5 rounded-full ${getScoreBarColor(pct)} transition-all`} style={{ width: `${pct}%` }} />
                     </div>
                   </div>
                 );
@@ -140,11 +178,12 @@ export default async function RepPage({ params }: { params: Promise<{ id: string
   );
 }
 
-function StatBox({ label, value }: { label: string; value: string }) {
+function StatBox({ label, value, color }: { label: string; value: string; color?: "green" | "red" }) {
+  const valClass = color === "green" ? "text-emerald-600" : color === "red" ? "text-red-600" : "text-gray-800";
   return (
-    <div className="bg-gray-50 rounded-lg px-4 py-3 border border-gray-200 text-center">
-      <div className="text-xl font-bold text-gray-800">{value}</div>
-      <div className="text-xs text-gray-500 mt-0.5">{label}</div>
+    <div className="bg-gray-50 rounded-xl px-4 py-3 border border-gray-200 text-center">
+      <div className={`text-xl font-black tabular-nums ${valClass}`}>{value}</div>
+      <div className="text-xs text-gray-500 mt-0.5 font-medium">{label}</div>
     </div>
   );
 }

@@ -6,10 +6,10 @@ export default function MethodologyPage() {
   const norm = (data as any).normalization;
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="bg-red-700 text-white shadow-md">
+      <header className="bg-gradient-to-r from-red-950 via-red-900 to-red-800 text-white shadow-lg">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4 flex items-center gap-4">
-          <Link href="/" className="text-red-200 hover:text-white text-sm">← Back to Scorecard</Link>
-          <span className="text-red-600">|</span>
+          <Link href="/" className="text-red-300 hover:text-white text-sm transition-colors">← Back to Scorecard</Link>
+          <span className="text-red-700">|</span>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/wagop-logo.png`} alt="WAGOP Liberty Index Scorecard" width={100} height={29} className="brightness-0 invert opacity-80" />
         </div>
