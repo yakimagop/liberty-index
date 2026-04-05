@@ -137,9 +137,44 @@ export default function MethodologyPage() {
             </div>
           </Section>
 
+          <Section title="Step 3b — Landmark bill significance multipliers">
+            <p>
+              Not all bills within a category are equal. A defining tax vote deserves more weight than a minor fee adjustment.
+              A small number of landmark bills receive an additional significance multiplier on top of their category weight:
+            </p>
+            <div className="mt-4 overflow-x-auto">
+              <table className="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
+                <thead>
+                  <tr className="bg-gray-50 border-b border-gray-200">
+                    <th className="py-2 px-4 text-left font-semibold text-gray-600">Bill</th>
+                    <th className="py-2 px-4 text-left font-semibold text-gray-600">Subject</th>
+                    <th className="py-2 px-4 text-left font-semibold text-gray-600">Multiplier</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100">
+                  {[
+                    ["ESSB 6346", "Millionaires / wealth tax", "2×"],
+                    ["ESSB 5813", "Capital gains + estate tax rate hike", "2×"],
+                    ["ESSB 5814", "Major excise tax package", "2×"],
+                    ["E2SHB 1163", "Gun purchase permit mandate", "2×"],
+                    ["SSB 5314", "Capital gains loophole closure", "1.5×"],
+                    ["HB 1376", "Capital gains tax prepayment", "1.5×"],
+                  ].map(([bill, subject, mult]) => (
+                    <tr key={bill}>
+                      <td className="py-2 px-4 font-mono text-xs text-gray-700">{bill}</td>
+                      <td className="py-2 px-4">{subject}</td>
+                      <td className="py-2 px-4 font-bold text-red-700">{mult}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </Section>
+
           <Section title="Step 4 — Raw score formula">
             <div className="bg-gray-900 text-green-400 rounded-lg p-4 font-mono text-sm">
-              <p>rawScore = Σ(weight × 1 if conservative vote)</p>
+              <p>weight = categoryWeight × confidence × significanceMultiplier</p>
+              <p className="mt-2">rawScore = Σ(weight × 1 if conservative vote)</p>
               <p className="ml-16">÷ Σ(weight of all scored votes cast)</p>
               <p className="ml-16">× 100</p>
             </div>
@@ -163,6 +198,10 @@ export default function MethodologyPage() {
             <p className="mt-3 text-sm text-gray-500">
               This means: 100 = the most conservative legislator in WA's {data.biennium} session.
               0 = the most liberal. All scores are relative to this legislature's actual voting record.
+            </p>
+            <p className="mt-3 text-sm text-gray-500">
+              The normalization bounds ({norm?.minRaw?.toFixed(1)}%–{norm?.maxRaw?.toFixed(1)}%) are <strong>locked</strong> after
+              the session concludes so that scores remain stable and comparable regardless of any future data corrections.
             </p>
           </Section>
 
