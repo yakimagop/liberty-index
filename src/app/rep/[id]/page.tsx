@@ -105,7 +105,7 @@ export default async function RepPage({ params }: { params: Promise<{ id: string
           <Link href="/" className="text-red-300 hover:text-white text-sm transition-colors">← All Legislators</Link>
           <span className="text-red-700">|</span>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/rlc-logo.png`} alt="RLC Washington Liberty Index Scorecard" width={40} height={40} className="rounded-full opacity-90" />
+          <img src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/rlc-logo.png`} alt="RLC Washington Liberty Index Scorecard" width={40} height={40} className="brightness-0 invert opacity-90" />
         </div>
       </header>
 
