@@ -54,6 +54,37 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* How It Works */}
+      <section className="bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+          <h2 className="text-xl font-black text-gray-900 mb-1">How We Arrived at These Scores</h2>
+          <p className="text-gray-500 text-sm mb-8">Three steps, fully documented and reproducible.</p>
+          <div className="grid sm:grid-cols-3 gap-6">
+            <HowCard
+              step="1"
+              title="Official Vote Data"
+              body={`Every floor vote cast during the ${data.biennium} legislative session was pulled directly from the Washington State Legislature's public API (WSLWS). Only final passage votes count — no procedural motions, no committee votes, no amendments. If a bill went through concurrence after Senate amendments, only the legislator's final vote on the final version is used.`}
+              href="https://wslwebservices.leg.wa.gov"
+              linkLabel="WA Legislature Web Services ↗"
+            />
+            <HowCard
+              step="2"
+              title="AI Bill Classification"
+              body={`Each of the ${data.totalBillsScored} scored bills was independently analyzed by Claude AI using a strict conservative/liberty policy framework — calibrated against both the 2024 RNC Platform and the 2024 WA State Republican Party Platform. The AI determined whether the conservative position was to vote YEA or NAY based solely on what the bill actually does, not which party introduced it. Bills that were purely administrative (bridge namings, technical corrections) were excluded as SKIP.`}
+              href="/methodology"
+              linkLabel="See the classification criteria →"
+            />
+            <HowCard
+              step="3"
+              title="Weighted Scoring & Normalization"
+              body={`Each vote is weighted by policy category — issues that receive top-tier emphasis in both party platforms (taxes, 2nd Amendment, election integrity, immigration, energy) count 1.5× more than standard issues. A raw score is calculated as the share of weighted conservative votes cast. Scores are then normalized to a 0–100 Liberty Index relative to this legislature: 100 = the most conservative WA legislator, 0 = the most liberal. Unexcused absences count against a legislator; excused absences are excluded.`}
+              href="/methodology"
+              linkLabel="See the full formula →"
+            />
+          </div>
+        </div>
+      </section>
+
       <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6">
         <Leaderboard members={members} />
       </main>
@@ -72,6 +103,22 @@ export default function HomePage() {
           </Link>
         </div>
       </footer>
+    </div>
+  );
+}
+
+function HowCard({ step, title, body, href, linkLabel }: { step: string; title: string; body: string; href: string; linkLabel: string }) {
+  const isExternal = href.startsWith("http");
+  return (
+    <div className="relative pl-5 border-l-2 border-red-200">
+      <div className="absolute -left-4 top-0 w-7 h-7 rounded-full bg-red-700 text-white text-xs font-black flex items-center justify-center shadow">{step}</div>
+      <h3 className="font-bold text-gray-900 mb-2 text-base">{title}</h3>
+      <p className="text-gray-600 text-sm leading-relaxed mb-3">{body}</p>
+      {isExternal ? (
+        <a href={href} target="_blank" rel="noopener noreferrer" className="text-red-700 text-sm font-semibold hover:underline">{linkLabel}</a>
+      ) : (
+        <Link href={href} className="text-red-700 text-sm font-semibold hover:underline">{linkLabel}</Link>
+      )}
     </div>
   );
 }
